@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #ffffff;
+    --foreground: #0f172a;
+    --card: #ffffff;
+    --card-foreground: #0f172a;
+    --popover: #ffffff;
+    --popover-foreground: #0f172a;
+    --primary: #2563eb;
+    --primary-foreground: #ffffff;
+    --secondary: #f1f5f9;
+    --secondary-foreground: #0f172a;
+    --muted: #f1f5f9;
+    --muted-foreground: #64748b;
+    --accent: #f8fafc;
+    --accent-foreground: #2563eb;
+    --destructive: #dc2626;
+    --destructive-foreground: #ffffff;
+    --border: #e2e8f0;
+    --input: #e2e8f0;
+    --ring: #2563eb;
+    --radius: 1rem;
+  }
+
+  .dark {
+    --background: #000000;
+    --foreground: #f8fafc;
+    --card: #1e293b;
+    --card-foreground: #f8fafc;
+    --popover: #1e293b;
+    --popover-foreground: #f8fafc;
+    --primary: #3b82f6;
+    --primary-foreground: #ffffff;
+    --secondary: #334155;
+    --secondary-foreground: #f8fafc;
+    --muted: #334155;
+    --muted-foreground: #94a3b8;
+    --accent: #1e293b;
+    --accent-foreground: #3b82f6;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --border: #334155;
+    --input: #334155;
+    --ring: #3b82f6;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  ::selection {
+    @apply bg-primary bg-opacity-30 text-foreground;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-xl px-3 py-2 md:px-5 md:py-2.5 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none shadow-lg hover:shadow-xl active:scale-95;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary text-primary-foreground hover:bg-opacity-90;
+  }
+
+  .btn-secondary {
+    @apply btn bg-secondary text-secondary-foreground hover:bg-opacity-80;
+  }
+
+  .icon-btn {
+    @apply inline-flex items-center justify-center rounded-xl p-2 md:p-2.5 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none hover:bg-accent hover:text-accent-foreground active:scale-95;
+  }
+
+  .card {
+    @apply rounded-xl md:rounded-2xl border bg-card text-card-foreground shadow-lg hover:shadow-xl transition-all backdrop-blur-sm;
+  }
+
+  .glass {
+    @apply bg-white/20 dark:bg-black/20 backdrop-blur-lg border border-white/20 dark:border-white/10 shadow-black/10;
+  }
+
+  .input {
+    @apply flex h-9 md:h-11 w-full rounded-xl border border-input bg-white/50 dark:bg-black/50 px-3 md:px-4 py-2 text-sm md:text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-colors backdrop-blur-sm;
+  }
+
+  .textarea {
+    @apply flex min-h-[80px] w-full rounded-xl border border-input bg-white/50 dark:bg-black/50 px-3 md:px-4 py-2 md:py-3 text-sm md:text-base ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-colors resize-none backdrop-blur-sm;
+  }
+
+  /* AdSense Spaces */
+  .ad-container {
+    @apply w-full my-8 flex justify-center items-center min-h-[90px] md:min-h-[250px] bg-white/50 dark:bg-black/50 rounded-xl backdrop-blur-sm border border-white/20 dark:border-white/10;
+  }
+
+  .ad-sidebar {
+    @apply hidden lg:block w-[300px] min-h-[600px] bg-white/50 dark:bg-black/50 rounded-xl backdrop-blur-sm sticky top-24 border border-white/20 dark:border-white/10;
+  }
+
+  .ad-footer {
+    @apply w-full min-h-[90px] md:min-h-[250px] bg-white/50 dark:bg-black/50 rounded-xl backdrop-blur-sm mt-8 mb-4 border border-white/20 dark:border-white/10;
+  }
+
+  /* Mobile styles */
+  @media (max-width: 640px) {
+    .container {
+      @apply px-4;
+    }
+
+    .btn, .icon-btn {
+      @apply min-w-[2.5rem] min-h-[2.5rem];
+    }
+
+    .glass {
+      @apply p-3;
+    }
+
+    .ad-container {
+      @apply min-h-[100px];
+    }
+  }
+} 

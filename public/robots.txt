@@ -1,0 +1,12 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://notepadfy.com/sitemap.xml
+
+# Disallow API routes
+Disallow: /api/
+
+# Optimize crawl budget
+Crawl-delay: 1 
