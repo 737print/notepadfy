@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import { FiSave, FiCopy, FiDownload, FiTrash2, FiClock, FiLock, FiLink, FiShare2, FiCheck, FiMinus, FiPlus } from 'react-icons/fi'
 import { toast } from 'sonner'
-import { v4 as uuidv4 } from 'uuid'
 import { useRouter } from 'next/navigation'
 
 interface EditorProps {
@@ -26,7 +25,7 @@ export default function Editor({ initialContent = '', isProtected = false, noteI
 
   useEffect(() => {
     // Gera uma URL temporária única para a nota
-    const tempId = noteId || uuidv4()
+    const tempId = noteId || Math.random().toString(36).substring(7)
     setTemporaryUrl(`${window.location.origin}/note/${tempId}`)
   }, [noteId])
 
@@ -60,44 +59,24 @@ export default function Editor({ initialContent = '', isProtected = false, noteI
 
   const handleSave = async () => {
     try {
-      // Se tiver URL personalizada e ela estiver disponível, usa ela
-      // Senão, usa o ID existente ou gera um novo
-      const id = (customUrl && isUrlAvailable) ? customUrl : (noteId || uuidv4())
-      
-      const response = await fetch(`/api/notes/${id}`, {
+      const newId = noteId || Math.random().toString(36).substring(7)
+      const response = await fetch('/api/notes', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          content,
-          isProtected: isPasswordProtected,
-          password: isPasswordProtected ? password : undefined,
-          customUrl: customUrl || undefined
-        })
+          id: newId,
+          content: content,
+          isProtected: false
+        }),
       })
 
-      if (!response.ok) {
-        const error = await response.json()
-        throw new Error(error.error || 'Error saving note')
+      if (response.ok) {
+        router.push(`/note/${newId}`)
       }
-      
-      const savedNote = await response.json()
-      
-      // Se tiver URL personalizada e ela estiver disponível, redireciona para ela
-      if (customUrl && isUrlAvailable) {
-        router.push(`/note/${customUrl}`)
-      }
-      // Se não tiver URL personalizada e for uma nota nova, redireciona para o ID
-      else if (!noteId) {
-        router.push(`/note/${savedNote.id}`)
-      }
-      
-      setLastSaved(new Date())
-      toast.success('Note saved successfully!')
     } catch (error) {
-      console.error('Save error:', error)
-      toast.error(error instanceof Error ? error.message : 'Error saving note')
+      console.error('Failed to save note:', error)
     }
   }
 
