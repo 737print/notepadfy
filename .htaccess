@@ -1,14 +1,16 @@
 RewriteEngine On
 
-# Se o arquivo/diretório não existe, redireciona para o index.php
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php [L,QSA]
+# Redirecionar para HTTPS
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # Permitir acesso à pasta api
-<IfModule mod_rewrite.c>
-    RewriteRule ^api/ - [L]
-</IfModule>
+RewriteRule ^api/ - [L]
+
+# Se o arquivo/diretório não existe, redireciona para o index.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ /index.html [L]
 
 # PHP settings
 php_value upload_max_filesize 10M
