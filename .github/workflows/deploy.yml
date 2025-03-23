@@ -21,6 +21,12 @@ jobs:
       - name: Build project
         run: npm run build
         
+      - name: Copy API files
+        run: |
+          mkdir -p out/api
+          cp api/*.php out/api/
+          cp database.sql out/
+        
       - name: Deploy to Hostinger
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
         with:
@@ -28,6 +34,6 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: public_html/
-          local-dir: ./
+          local-dir: out/
           dangerous-clean-slate: true
           port: 21 
