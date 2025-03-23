@@ -21,11 +21,52 @@ jobs:
       - name: Build project
         run: npm run build
         
-      - name: Copy API files
+      - name: Prepare files for deployment
         run: |
-          mkdir -p out/api
-          cp api/*.php out/api/
-          cp database.sql out/
+          # Criar diretório para os arquivos
+          mkdir -p deploy
+          
+          # Copiar arquivos do Next.js
+          cp -r .next deploy/
+          cp -r public deploy/
+          cp package.json deploy/
+          cp package-lock.json deploy/
+          
+          # Copiar arquivos PHP
+          mkdir -p deploy/api
+          cp api/*.php deploy/api/
+          cp database.sql deploy/
+          
+          # Criar arquivo start.js para iniciar o servidor
+          echo "const { createServer } = require('http');
+          const { parse } = require('url');
+          const next = require('next');
+          
+          const dev = false;
+          const hostname = 'localhost';
+          const port = process.env.PORT || 3000;
+          
+          const app = next({ dev, hostname, port });
+          const handle = app.getRequestHandler();
+          
+          app.prepare().then(() => {
+            createServer(async (req, res) => {
+              try {
+                const parsedUrl = parse(req.url, true);
+                await handle(req, res, parsedUrl);
+              } catch (err) {
+                console.error('Error occurred handling', req.url, err);
+                res.statusCode = 500;
+                res.end('internal server error');
+              }
+            }).listen(port, (err) => {
+              if (err) throw err;
+              console.log('> Ready on http://${hostname}:${port}');
+            });
+          });" > deploy/start.js
+          
+          # Criar arquivo .env
+          echo "DATABASE_URL=\"mysql://u476886275_notepadfy:oJGs:GtT#m]P]h1N@localhost:3306/u476886275_notepadfy\"" > deploy/.env
         
       - name: Deploy to Hostinger
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
@@ -34,6 +75,6 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: public_html/
-          local-dir: out/
+          local-dir: deploy/
           dangerous-clean-slate: true
           port: 21 

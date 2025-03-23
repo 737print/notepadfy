@@ -1,0 +1,17 @@
+RewriteEngine On
+
+# Se o arquivo/diretório não existe, redireciona para o index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [L,QSA]
+
+# Permitir acesso à pasta api
+<IfModule mod_rewrite.c>
+    RewriteRule ^api/ - [L]
+</IfModule>
+
+# PHP settings
+php_value upload_max_filesize 10M
+php_value post_max_size 10M
+php_value max_execution_time 300
+php_value max_input_time 300 
