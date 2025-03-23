@@ -1,6 +1,18 @@
 # Notepadfy
 
-A modern, fast, and secure online notepad application built with Next.js, TypeScript, and Tailwind CSS.
+Teste de deploy - Verificando configuração FTP
+
+## Sobre o Projeto
+
+Notepadfy é uma aplicação web para criar e compartilhar notas de texto de forma simples e rápida.
+
+## Funcionalidades
+
+- ✍️ Editor de texto simples e intuitivo
+- 🔒 Opção de proteger notas com senha
+- 🔗 URLs personalizadas para suas notas
+- 📱 Design responsivo
+- 🌙 Modo escuro
 
 ## Features
 
