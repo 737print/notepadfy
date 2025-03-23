@@ -59,21 +59,21 @@ export default function Editor({ initialContent = '', isProtected = false, noteI
 
   const handleSave = async () => {
     try {
-      const newId = noteId || Math.random().toString(36).substring(7)
-      const response = await fetch('/api/notes', {
+      const noteId = noteId || Math.random().toString(36).substring(7)
+      const response = await fetch('/api/notes.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          id: newId,
+          id: noteId,
           content: content,
           isProtected: false
         }),
       })
 
       if (response.ok) {
-        router.push(`/note/${newId}`)
+        router.push(`/note/${noteId}`)
       }
     } catch (error) {
       console.error('Failed to save note:', error)
